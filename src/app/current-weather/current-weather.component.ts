@@ -1,24 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ICurrentWeather } from '../interfaces'
+import { ICurrentWeather } from '../interfaces';
+import { WeatherService } from '../weather.service';
+import { fromEventPattern } from 'rxjs';
+
 @Component({
   selector: 'app-current-weather',
   templateUrl: './current-weather.component.html',
   styleUrls: ['./current-weather.component.css']
 })
 export class CurrentWeatherComponent implements OnInit {
-  current: ICurrentWeather
-  constructor() {
-    this.current = {
-      city: 'Kirkland',
-      country: 'US',
-      date: new Date,
-      image: 'assets/img/sunny.jpg',
-      temperature: 39,
-      description: 'Cold and wet!'
-    } as ICurrentWeather
-   }
+  current: ICurrentWeather;
+  constructor(private weatherService: WeatherService) {}
 
   ngOnInit() {
+    this.weatherService
+    .getCurrentWeather('KIRKLAND', 'US')
+    .subscribe(data => (this.current = data));
   }
-
 }
